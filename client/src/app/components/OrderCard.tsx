@@ -1,6 +1,6 @@
-import { MapPin, Calendar, Egg } from 'lucide-react';
-import styles from './OrderCard.module.css';
 import { Order } from '../types';
+import styles from './OrderCard.module.css';
+import { Check, Clock } from 'lucide-react';
 
 interface Props {
   order: Order;
@@ -8,42 +8,56 @@ interface Props {
 }
 
 export const OrderCard = ({ order, onDeliver }: Props) => {
+  // Lógica para elegir el color del borde
+  const statusClass = order.status === 'ENTREGADO' ? styles.delivered : styles.pending;
+
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${statusClass}`}>
       <div className={styles.header}>
-        <h3 className={styles.customer}>{order.customerName}</h3>
-        <span className={styles.price}>${order.price}</span>
+        <div>
+          <h3 className={styles.customer}>{order.customerName}</h3>
+          <p style={{color: '#666', fontSize: '0.9rem', margin: '4px 0'}}>{order.address}</p>
+        </div>
+        <span className={styles.date}>
+           {new Date(order.deliveryDate).toLocaleDateString()}
+        </span>
       </div>
-      
+
       <div className={styles.details}>
-        <div className={styles.row}>
-          <MapPin size={16} />
-          <span>{order.address}</span>
+        <div className={styles.infoItem}>
+          <span className={styles.label}>Cantidad</span>
+          <span className={styles.value}>{order.quantityTrays} bandejas</span>
         </div>
-        <div className={styles.row}>
-          <Egg size={16} />
-          <span>{order.quantityTrays} Bandejas</span>
-        </div>
-        <div className={styles.row}>
-          <Calendar size={16} />
-          {/* Formateamos la fecha para que se vea amigable */}
-          <span>{new Date(order.deliveryDate).toLocaleDateString()}</span>
+        <div className={styles.infoItem} style={{alignItems: 'flex-end'}}>
+          <span className={styles.label}>Total</span>
+          <span className={styles.value}>${order.price}</span>
         </div>
       </div>
 
-      {order.status === 'PENDING' ? (
-        <button 
-          className={styles.deliverBtn}
-          onClick={() => {
-            // eslint-disable-next-line no-restricted-globals
-            if(confirm('¿Marcar como entregado?')) onDeliver(order.id);
-          }}
-        >
-          Marcar como Entregado
-        </button>
-      ) : (
-        <div className={styles.deliveredBadge}>¡Entregado!</div>
-      )}
+      <div className={styles.actions}>
+        {order.status === 'PENDIENTE' ? (
+          <button 
+            onClick={() => onDeliver(order.id)} 
+            className={styles.deliverBtn}
+          >
+            <Check size={20} /> Marcar Entregado
+          </button>
+        ) : (
+          <div style={{
+            flex: 1, 
+            textAlign: 'center', 
+            padding: '10px', 
+            color: '#10b981', 
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px'
+          }}>
+            <Check size={20} /> ¡Entregado!
+          </div>
+        )}
+      </div>
     </div>
   );
 };

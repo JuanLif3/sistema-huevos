@@ -4,7 +4,7 @@ export interface Order {
   address: string;
   quantityTrays: number;
   price: number;
-  status: 'PENDING' | 'DELIVERED' | 'CANCELLED';
+  status: 'PENDIENTE' | 'ENTREGADO' | 'CANCELADO';
   deliveryDate: string;
   createdAt: string;
 }

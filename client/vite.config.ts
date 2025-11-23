@@ -10,16 +10,20 @@ export default defineConfig(() => ({
   server: {
     port: 4200,
     host: 'localhost',
+    // AGREGA ESTO: Configuración del Proxy
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000', // Tu backend NestJS
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
   preview: {
     port: 4200,
     host: 'localhost',
   },
   plugins: [react(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
   build: {
     outDir: '../dist/client',
     emptyOutDir: true,

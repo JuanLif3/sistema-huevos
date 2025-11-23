@@ -15,6 +15,7 @@ export class SalesService {
     // Crear un pedido
     async create (createOrderDto: CreateOrderDto): Promise<Order>{
     const order = this.orderRepository.create(createOrderDto)
+    order.status = OrderStatus.PENDING;
     return this.orderRepository.save(order);
     }
 
@@ -27,7 +28,7 @@ export class SalesService {
 
     // Buscar por uno
     async findOne (id: string) {
-        const order = this.orderRepository.findOneBy({ id });
+        const order = await this.orderRepository.findOneBy({ id });
         if (!order) throw new NotFoundException(`Pedido ${id} no enontrado`);
         return order;
     }

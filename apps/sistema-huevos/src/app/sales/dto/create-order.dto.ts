@@ -18,5 +18,5 @@ export class CreateOrderDto {
     price: number;
 
     @IsDateString() // Valida que sea una fecha válida (ISO 8601)
-    deleveryDate: string;
+    deliveryDate: string;
 }
