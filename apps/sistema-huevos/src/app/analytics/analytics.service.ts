@@ -17,16 +17,16 @@ export class AnalyticsService {
         // 1. Calcular total de ventas (Ingresos)
         // Sumamos la columna 'price' de todos los pedidos que NO estan cancelados
         const salesResult = await this.orderRepo
-        .createQueryBuilder('order')
-        .select('SUM(order.price)', 'total')
-        .where('order.status::text != :status', { status: 'CANCELLED' })
+        .createQueryBuilder('sale')
+        .select('SUM(sale.price)', 'total')
+        .where('sale.status::text != :status', { status: 'CANCELLED' })
         .getRawOne();
 
         // 2. Calcular Total de Compras (Egresos)
         // Sumamos la columna 'cost' de todos los suministros
         const suppliesResult = await this.SupplyRepo
-        .createQueryBuilder('supplu')
-        .select('SUM(supply.cost', 'total')
+        .createQueryBuilder('supply')
+        .select('SUM(supply.cost)', 'total')
         .getRawOne();
 
         // 3. Calcular Totales Numéricos (Manejar nulos si es la primera vez)
@@ -37,9 +37,9 @@ export class AnalyticsService {
         // 4. Contar Cantidades Físicas (Inventario aproximado)
         // ¿Cuántas bandejas se vendieron?
         const traysSoldResult = await this.orderRepo
-        .createQueryBuilder('order')
-        .select('SUM(order.quantityTrays)', 'total')
-        .where('order.status::text != :status', { status: 'CANCELLED' })
+        .createQueryBuilder('sale')
+        .select('SUM(sale.quantityTrays)', 'total')
+        .where('sale.status::text != :status', { status: 'CANCELLED' })
         .getRawOne();
 
         const traysSold = parseInt(traysSoldResult.total || '0');

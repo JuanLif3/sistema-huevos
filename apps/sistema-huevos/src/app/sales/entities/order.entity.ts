@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 export enum OrderStatus {
-    PEDINDG = 'PENDIENTE',
+    PENDING = 'PENDIENTE',
     DELIVERED = 'ENTREGADO',
     CANCELLED = 'CANCELLED',
 }
@@ -17,13 +17,16 @@ export class Order {
     @Column('text')
     address: string;
 
+    @Column('int', { default: 1 }) 
+    quantityTrays: number;
+
     @Column('decimal', { precision: 10, scale: 2 })
     price: number;
 
     @Column({
         type: 'enum',
         enum: OrderStatus,
-        default: OrderStatus.PEDINDG,
+        default: OrderStatus.PENDING,
     })
     status: OrderStatus;
 
