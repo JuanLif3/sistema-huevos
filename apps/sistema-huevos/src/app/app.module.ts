@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SalesModule } from './sales/sales.module';
+import { SuppliesModule } from './supplies/supplies.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 @Module({
   imports: [
     // Variables de entorno globalmente
@@ -29,6 +31,10 @@ import { SalesModule } from './sales/sales.module';
     }),
 
     SalesModule,
+
+    SuppliesModule,
+
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

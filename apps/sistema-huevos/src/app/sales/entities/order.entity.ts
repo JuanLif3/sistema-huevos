@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 export enum OrderStatus {
     PEDINDG = 'PENDIENTE',
     DELIVERED = 'ENTREGADO',
-    CANCELLED = 'CANELADO',
+    CANCELLED = 'CANCELLED',
 }
 
 @Entity('orders')
